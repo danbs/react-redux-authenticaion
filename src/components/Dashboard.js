@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {startCountdown, decrementCountdown, changeTextColor} from '../actions/actions';
 import ReactExplode from './Explosion';
 
@@ -7,9 +7,16 @@ const Dashboard = ({countdown, startCountdown, decrementCountdown, textColor, ch
     const randomColor = () => {
         return '#' + Math.floor(Math.random() * 16777215).toString(16); // Generate a random hex color
     };
-
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const [intervalId, setIntervalId] = useState(null);
     const [exploded, setExploded] = useState(false);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            // Redirect to login page if not authenticated
+            window.location.href = '/login';
+        }
+    }, [isLoggedIn]);
 
     useEffect(() => {
         if (exploded) {
