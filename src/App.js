@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
+import {Provider, useSelector, useDispatch} from 'react-redux';
+import store from './store';
+import Navbar from './components/Navbar';
+import Explosion from './components/Explosion';
+import Login from './components/Login';
+import './styles/tailwind.css'
+import Dashboard from './components/Dashboard';
+import LastPage from './components/LastPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+const App = () => {
+
+    return (
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Navbar/>
+                    <Routes>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/dashboard" element={<Dashboard/>}/>
+                        <Route path="/explosion" element={<Explosion/>}/>
+                        <Route path="/last-page" element={<LastPage/>}/>
+                        <Route path="*" element={<Navigate to="/dashboard"/>}/>
+                    </Routes>
+                </div>
+            </Router>
+        </Provider>
+    );
+};
 
 export default App;
